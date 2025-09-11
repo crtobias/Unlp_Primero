@@ -108,8 +108,8 @@ type
         end;
     end;
 
-    //este solo imprime pero si queremos agregar en una lista o tratar
-    //el nodo de alguna manera podriamos cambiar esta funcion y listo
+    //le quedo imprimir pero es agregar lista pero enrealidad se puede usar
+    //para lo que quieras cambiar el nodo
     procedure Imprimir(a:arbol;var l:lista);
     var
         p:paquete;
@@ -167,18 +167,34 @@ begin
     end;
 end;
 
+procedure BuscarMaximoCantObjetos(a:arbol;var mayor:paquete);
+begin
+    if a <> nil then begin
+        
+        if(a^.dato.cantObjetos > mayor.cantObjetos) then 
+            mayor:= a^.dato;
+        
+        BuscarMaximoCantObjetos(a^.hi, mayor);
+        BuscarMaximoCantObjetos(a^.hd, mayor);
+
+    end;
+end;
+
 
 var
     a:arbol;
     min:real;
     max:real;
     l:lista;
+    mayor:paquete;
 begin
     l:=nil;
     crearArbol(a);
     usarPuntos(a,min,max,l);
     writeLista(l);
 
+    mayor.cantObjetos:=-1;
+    BuscarMaximoCantObjetos(a,mayor);
+    WriteLn('Paquete con más objetos: ', mayor.cantObjetos);
+
 END.
-//falta sacar el mayor en el arbol pero es recorrer
-// y ir remplazando alta paja es facil
