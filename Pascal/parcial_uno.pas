@@ -18,6 +18,8 @@
 program CRtobias;
 type
 
+
+
     arbol = ^nodo;
 
     lista = ^nodoLista;
@@ -64,6 +66,21 @@ type
         end;
     end;
 
+    procedure agregarAdelante(var l:lista;p:paquete);
+    var
+        nue:lista;
+    begin
+        new(nue);
+        nue^.dato:=p;
+        nue^.sig:=nil;
+        if(l = nil) then begin  
+            l:=nue;
+        end else begin
+            nue^.sig:=l;
+            l:=nue;
+        end;
+    end;
+
     procedure leerPaquete(var p:paquete);
     begin
         WriteLn('ingrese cdigo');
@@ -93,29 +110,36 @@ type
 
     //este solo imprime pero si queremos agregar en una lista o tratar
     //el nodo de alguna manera podriamos cambiar esta funcion y listo
-    procedure Imprimir(a:arbol);
+    procedure Imprimir(a:arbol;var l:lista);
+    var
+        p:paquete;
     begin
-        WriteLn('nodo imprimir');
-        WriteLn(a^.dato.peso);
+        WriteLn('agregando a la lista');
+        p:= a^.dato;
+        agregarAdelante(l,p);
+        WriteLn('nodo agregado a la lista');
     end;
 
     //al momento de usar esto tenemos que ver si la consigna dice que x > y o
     //preguntarlo con condicionales antes de usarlo.
-    procedure puntos(a:arbol;x:integer;y:integer);
+    procedure puntos(a:arbol;x:integer;y:integer;var l:lista);
     begin
+
+        //agregar una verificacion para saber si x o y es menor o mayor
+
         if(a <> nil) then begin
 
             if a^.dato.peso > x then begin
-                puntos(a^.hi,x,y);
+                puntos(a^.hi,x,y,l);
             end;
 
             if (a^.dato.peso > x) and (a^.dato.peso < y) then begin
-                Imprimir(a);
+                Imprimir(a,l);
             end;
 
 
             if a^.dato.peso < y then begin
-                puntos(a^.hd,x,y);
+                puntos(a^.hd,x,y,l);
             end;
 
         end
