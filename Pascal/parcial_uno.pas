@@ -91,8 +91,34 @@ type
         end;
     end;
 
-    procedure puntoB(a:arbol;v1:integer;v2:integer);
+    //este solo imprime pero si queremos agregar en una lista o tratar
+    //el nodo de alguna manera podriamos cambiar esta funcion y listo
+    procedure Imprimir(a:arbol);
     begin
+        WriteLn('nodo imprimir');
+        WriteLn(a^.dato.peso);
+    end;
+
+    //al momento de usar esto tenemos que ver si la consigna dice que x > y o
+    //preguntarlo con condicionales antes de usarlo.
+    procedure puntos(a:arbol;x:integer;y:integer);
+    begin
+        if(a <> nil) then begin
+
+            if a^.peso > x then begin
+                puntos(a^.hi,x,y);
+            end;
+
+            if (a^.peso > x) and (a^.peso < y) then begin
+                Imprimir(a);
+            end;
+
+
+            if a^.peso < y then begin
+                puntos(a^.hd,x,y);
+            end;
+
+        end
     end;
 
 
