@@ -105,16 +105,16 @@ type
     begin
         if(a <> nil) then begin
 
-            if a^.peso > x then begin
+            if a^.dato.peso > x then begin
                 puntos(a^.hi,x,y);
             end;
 
-            if (a^.peso > x) and (a^.peso < y) then begin
+            if (a^.dato.peso > x) and (a^.dato.peso < y) then begin
                 Imprimir(a);
             end;
 
 
-            if a^.peso < y then begin
+            if a^.dato.peso < y then begin
                 puntos(a^.hd,x,y);
             end;
 
