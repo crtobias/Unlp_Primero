@@ -120,37 +120,65 @@ type
         WriteLn('nodo agregado a la lista');
     end;
 
-    //al momento de usar esto tenemos que ver si la consigna dice que x > y o
-    //preguntarlo con condicionales antes de usarlo.
-    procedure puntos(a:arbol;x:integer;y:integer;var l:lista);
-    begin
 
-        //agregar una verificacion para saber si x o y es menor o mayor
+    procedure puntos(a:arbol;min:real;max:real;var l:lista);
+    begin
 
         if(a <> nil) then begin
 
-            if a^.dato.peso > x then begin
-                puntos(a^.hi,x,y,l);
+            if a^.dato.peso > min then begin
+                puntos(a^.hi,min,max,l);
             end;
 
-            if (a^.dato.peso > x) and (a^.dato.peso < y) then begin
+            if (a^.dato.peso > min) and (a^.dato.peso < max) then begin
                 Imprimir(a,l);
             end;
 
 
-            if a^.dato.peso < y then begin
-                puntos(a^.hd,x,y,l);
+            if a^.dato.peso < max then begin
+                puntos(a^.hd,min,max,l);
             end;
 
         end
     end;
 
+    
+procedure usarPuntos(a:arbol;var min:real;var max:real; var l:lista);
+begin
+    WriteLn('ingrese peso minimo');
+    readLn(min);
+    WriteLn('ingrese peso maximo');
+    readLn(max);
 
+    if( min < max) then begin 
+        puntos(a,min,max,l);
+    end else begin
+        puntos(a,max,min,l);
+    end;
+end;
 
+procedure writeLista(l:lista);
+begin
+    if( l <> nil) then begin
+        write('nodo peso: ',l^.dato.peso);
+        if (l^.sig <> nil) then begin
+            writeLista(l^.sig);
+        end;
+    end;
+end;
 
 
 var
     a:arbol;
+    min:real;
+    max:real;
+    l:lista;
 begin
+    l:=nil;
     crearArbol(a);
+    usarPuntos(a,min,max,l);
+    writeLista(l);
+
 END.
+//falta sacar el mayor en el arbol pero es recorrer
+// y ir remplazando alta paja es facil
