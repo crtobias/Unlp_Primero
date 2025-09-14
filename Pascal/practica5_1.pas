@@ -41,23 +41,59 @@ procedure ordenarVector(var v:vector ; var dl:integer);
 var
     i,x:integer;
     aux:oficina;
-    memo:integer;
+    pos:integer;
 begin
   
   x:=1;
 
   for i:=1 to dl do begin
-    memo:=i;
+    pos:=i;
     for x:=i+1 to dl do begin
-       if v[x].codigo < v[memo].codigo then
-            memo := x;
+       if v[x].codigo < v[pos].codigo then
+            pos := x;
     end;
 
-
     aux := v[i];
-    v[i] := v[memo];
-    v[memo] := aux;
+    v[i] := v[pos];
+    v[pos] := aux;
   end;
+end;
+
+procedure busquedaDicotomica(v: vector; ini, ult: integer; data: oficina; var pos: integer);
+var
+    medio: integer;
+begin
+    if ini > ult then
+    begin
+        pos := -1;  // No encontrado
+        writeln('No encontrado');
+    end
+    else
+    begin
+        medio := (ini + ult) div 2;  // Punto medio
+
+        if data.codigo = v[medio].codigo then
+        begin
+            pos := medio;  // Encontrado
+            writeln('Encontrado en la posición ', pos);
+        end
+        else if data.codigo < v[medio].codigo then
+        begin
+            busquedaDicotomica(v, ini, medio - 1, data, pos);  // Buscar en la mitad inferior
+        end
+        else
+        begin
+            busquedaDicotomica(v, medio + 1, ult, data, pos);  // Buscar en la mitad superior
+        end;
+    end;
+end;
+
+function montoTotal(a: arbol): real;
+begin
+    if (a = nil) then
+        montoTotal := 0
+    else
+        montoTotal := a^.dato.valor + montoTotal(a^.HI) + montoTotal(a^.HD);
 end;
 
 
