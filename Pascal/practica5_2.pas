@@ -2,7 +2,7 @@ program main;
 
 type
 
-
+arbolDos=^nodoArbolDos;
 
 arbol = ^nodoArbol;
 
@@ -14,14 +14,78 @@ auto = record
     modelo:string;
 end;
 
+lista = ^nodoLista;
+
+datoLista = record
+    color:string;
+    patente:integer;
+end;
+
+nodoLista = record
+  dato:datoLista;
+  sig:lista;
+end;
+
+datoDos = record
+    marca:string;
+    l:lista;
+end;
+
 nodoArbol = record
     dato:auto;
     hd:arbol;
     hi:arbol;
 end;
 
+nodoArbolDos = record
+    dato:datoDos;
+    hd:arbolDos;
+    hi:arbolDos;
+end;
 
 //finaliza con marca MMM
+
+procedure agregarAdelante(var l:lista;aut:auto);
+var
+    data:datoLista;
+    nue:lista;
+begin
+    data.patente:= aut.patente;
+    data.color:= aut.color;
+    
+    new(nue);
+    nue^.dato:= data;
+    nue^.sig:=l;
+    l:=nue;
+
+end;
+
+procedure insertarArbolDos(var a:arbolDos;aut:auto);
+var
+    nue:arbolDos;
+begin
+    if( a=nil ) then begin
+        new(nue);
+        nue^.dato.marca:= aut.marca;
+        nue^.dato.l := nil;
+        nue^.hi:=nil;
+        nue^.hd:=nil;
+        agregarAdelante(nue^.dato.l , aut);
+        a:=nue;
+    end else begin
+        
+        if ( a^.dato.marca =  aut.marca ) then begin
+            agregarAdelante(a^.dato.l , aut);
+        end else begin
+            if ( aut.marca > a^.dato.marca) then begin
+                insertarArbolDos(a^.hd,aut);
+            end else begin
+                insertarArbolDos(a^.hi,aut);
+            end;
+        end;
+
+    end;
+end;
 
 procedure leerAuto(var dato:auto);
 begin
