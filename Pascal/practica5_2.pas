@@ -129,13 +129,14 @@ begin
     end;
 end;
 
-procedure crearEstructuras(var a:arbol);
+procedure crearEstructuras(var a:arbol ; var ados:arbolDos);
 var
     dato:auto;
 begin
     leerAuto(dato);    
     while dato.marca <> 'MMM' do begin
         insertarArbol(a,dato);
+        insertarArbolDos(ados,dato);
         leerAuto(dato);  
     end;
 end;
@@ -143,9 +144,10 @@ end;
 
 var
     a:arbol;
+    ados:arbolDos;
 begin
     a:=nil;
-
-    crearEstructuras(a);
+    ados:=nil;
+    crearEstructuras(a,ados);
 
 End.
