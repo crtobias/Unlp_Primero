@@ -133,10 +133,26 @@ begin
     end;
 end;
 
+function sumaSuperiores(a:arbol;x:integer):integer;
+begin
+    if (a = nil) then begin
+        sumaSuperiores:=0;
+    end else begin
+        if (a^.dato.matriculaDelMedico > x) then begin
+            sumaSuperiores:=a^.dato.cant+sumaSuperiores(a^.hd,x)+sumaSuperiores(a^.hi,x);
+        end else begin
+            sumaSuperiores:=sumaSuperiores(a^.hd,x);
+        end
+    end;
+end;
 
 var
     a:arbol;
     v:vector;
+    suma:integer;
 begin
     generarEstructuras(v,a);
+
+    suma:=sumaSuperiores(a,10);
+    writeLn(suma);
 end.
