@@ -90,3 +90,90 @@ begin
 end;
 
 
+
+//es un array de personas ordenarlas por dni
+procedure ordenarArray(var  v:vector,dl:integer);
+var
+    i,j,pos:integer;
+    aux:persona;
+begin
+    for i:=1 to dl do begin
+
+        pos:=i;
+
+        for j:=i+1 to dl do begin
+            if (v[pos].dni > v[j].dni) then
+                pos:=j;
+        end;
+
+        aux:=v[i];
+        v[i]:=v[pos];
+        v[pos]:=aux;
+
+    end;
+end;
+
+
+function buscar(a;arbol,dni:integer):boolean;
+begin
+    if (a <> nil) then begin
+        if(a^.dato.dni = dni) then begin
+            buscar:=true;
+        end else if (dni > a^.dato.dni) then begin
+            buscar:=buscar(a^.hd,dni);
+        end else begin
+            buscar:=buscar(a^.hi,dni);
+        end;
+    end;
+end;
+
+// se usa
+var
+    bol:boolean;
+begin
+    bol:=false;
+    bol:=buscar(arbol,24241);
+end;
+
+
+
+
+procedure imprimirEntre(a:arbol;min:integer;max:integer);
+begin
+    if a <> nil then begin
+        if a^.dato.dni > min then
+        imprimirEntre(a^.hi,min,max);
+
+    if (a^.dato.dni <= max) and (a^.dato.dni >= min) then begin
+        writeLn('--------');
+        writeLn('dni actual');
+        writeLn(a^.dato.dni);
+        writeLn('--------');
+    end;
+
+    if a^.dato.dni < max then
+        imprimirEntre(a^.hd,min,max);
+
+    end;
+end;
+
+procedure imprimirEntre(a:arbol;minDni:integer;maxDni:integer);
+begin
+    if a<>nil then begin
+
+        if a^.dato.dni >= minDni then
+            imprimirEntre(a^.hi,minDni,maxDni);
+
+        if (a^.dato.dni <= maxDni) and (a^.dato.dni >= minDni) then begin
+            writeLn('------');   //aca se puede hacer otra cosa como nose hacer una lista
+            writeLn(a^.dato.dni);// con los datos que estan entre los dos valores
+                                 // ingresados
+        end;
+
+        if a^.dato.dni <= maxDni then
+            imprimirEntre(a^.hd,minDni,maxDni);
+
+        
+
+    end;
+end;
